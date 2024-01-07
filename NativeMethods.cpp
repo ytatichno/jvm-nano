@@ -144,7 +144,7 @@ Variable StringBuilder_append_I(RuntimeEnvironment* pRuntimeEnvironment)
 				
 			char * pThisStringOld = pThisString;
 
-			size_t thisString_size = (pThisStringOld == NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
+			size_t thisString_size = (pThisStringOld != NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
 			size_t int_size = 15;
 			size_t total_size = thisString_size + int_size + 1;
 			if(total_size > MAX_STR_SIZE)
@@ -185,7 +185,7 @@ Variable StringBuilder_append_C(RuntimeEnvironment* pRuntimeEnvironment)
 
 			char * pThisStringOld = pThisString;
 
-			size_t thisString_size = (pThisStringOld == NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
+			size_t thisString_size = (pThisStringOld != NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
 			size_t char_size = 1;
 			size_t total_size = thisString_size + char_size + 1;
 			if(total_size > MAX_STR_SIZE)
@@ -226,7 +226,7 @@ Variable StringBuilder_append_Z(RuntimeEnvironment* pRuntimeEnvironment)
 		{
 			char * pThisStringOld = pThisString;
 
-			size_t thisString_size = (pThisStringOld == NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
+			size_t thisString_size = (pThisStringOld != NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
 			size_t bool_size = 5;
 			size_t total_size = thisString_size + bool_size + 1;
 			if(total_size > MAX_STR_SIZE)
@@ -270,7 +270,7 @@ Variable StringBuilder_append_F(RuntimeEnvironment* pRuntimeEnvironment)
 
 			char * pThisStringOld = pThisString;
 
-			size_t thisString_size = (pThisStringOld == NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
+			size_t thisString_size = (pThisStringOld != NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
 			size_t float_size = 15;
 			size_t total_size = thisString_size + float_size + 1;
 			if(total_size > MAX_STR_SIZE)
@@ -318,7 +318,7 @@ Variable StringBuilder_append_J(RuntimeEnvironment* pRuntimeEnvironment)
 
 			char * pThisStringOld = pThisString;
 
-			size_t thisString_size = (pThisStringOld == NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
+			size_t thisString_size = (pThisStringOld != NULL ? strnlen(pThisStringOld, MAX_STR_SIZE-1) : 0);
 			size_t long_size = 31;
 			size_t total_size = thisString_size + long_size + 1;
 			if(total_size > MAX_STR_SIZE)
