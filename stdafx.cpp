@@ -9,6 +9,7 @@
 // and not in this file
 
 char * append(char * l, const char * r){
+    // printf(">>>%p", l);
     char * old = l;
 
     size_t l_size = (old != NULL ? strnlen(old, MAX_STR_SIZE-1) : 0);
@@ -21,8 +22,8 @@ char * append(char * l, const char * r){
     
     snprintf(l, MAX_STR_SIZE, "%.*s%.*s", (int)l_size, old, (int)r_size, r);
 
-    if(old != NULL){
-        free(old);
-    }
+    // if(old != NULL){
+    //     free(old);
+    // }
     return l;
 }
