@@ -8,7 +8,6 @@
 // #include "string.h"
 // #include "strings.h"
 JavaClass::JavaClass(void):
-	m_pClassHeap(NULL),
 	m_pByteCode(NULL),
 	m_nByteCodeLength(0),
 	m_nObjectFieldsCount(0)
@@ -25,7 +24,7 @@ JavaClass::~JavaClass(void)
 }
 
 
-bool JavaClass::LoadClassFromFile(char * lpszFilePath)
+bool JavaClass::LoadClassFromFile(const char * lpszFilePath)
 {
     u1 *p;
     size_t lenRead, len;
@@ -35,8 +34,15 @@ bool JavaClass::LoadClassFromFile(char * lpszFilePath)
 
 	//assert(PathFileExists(lpszFilePath));
 	//if(!PathFileExists(lpszFilePath)) return false;
+	// assert(access(lpszFilePath, O_RDONLY) == 0);
+	// printf(">>%s\n",lpszFilePath);
+	// int pathLen = strnlen(lpszFilePath, MAX_PATH-1)+1;
+	// char * path = (char*)calloc(pathLen,sizeof(char));
+	// memcpy(path,lpszFilePath,pathLen);
 
 	file = open(lpszFilePath, O_RDONLY);
+
+	// printf(">>>>file: %d\n", file);
 	//assert(bRet);
 	//if(!bRet) return false;
 	stat(lpszFilePath, &st);
@@ -446,10 +452,14 @@ bool JavaClass::ParseMethodCodeAttribute(int nMethodIndex, Code_attribute* pCode
 
 	return 0;
 }
-
+/// @brief linear search for method in class by name
+/// @param strMethodName 
+/// @param strMethodDesc 
+/// @param pClass 
+/// @return index of method in class by name or -1 if not exists
 int JavaClass::GetMethodIndex(const char * strMethodName, const char * strMethodDesc,JavaClass* &pClass)
 {
-	if(methods == NULL) return false;
+	if(methods == NULL) return -1;
 	
 	JavaClass* pCurClass=this;
 	while(pCurClass)

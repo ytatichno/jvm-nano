@@ -66,6 +66,10 @@ void ShowClassInfo(JavaClass* pClass);
 #define MAX_STR_SIZE 2048
 #endif
 
+#ifndef MAX_PATH
+#define MAX_PATH 256
+#endif
+
 #ifndef DLOG
 #define DLOG(X) printf(">>%s\n", X)
 #endif

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FilePathManager.h"
-#define MAX_PATH 256
+
 //#include "shlwapi.h"
 //#pragma comment(lib,"shlwapi.lib")
 
@@ -14,7 +14,7 @@ FilePathManager::~FilePathManager(void)
 
 bool FilePathManager::GetAbsolutePath(char * strRelativePath, char **strAbsolutePath)
 {
-	char path[MAX_PATH];
+	char * path = (char*)calloc(MAX_PATH, sizeof(char));
 
 #ifdef JOSBUILD
 
@@ -44,6 +44,7 @@ bool FilePathManager::GetAbsolutePath(char * strRelativePath, char **strAbsolute
 		pathExists = !access(path, O_RDONLY);
 	}
 	if(pathExists){
+		assert(access(path, O_RDONLY)==0);
 		*strAbsolutePath = path;
 		return true;
 	}
