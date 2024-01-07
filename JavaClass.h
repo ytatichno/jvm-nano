@@ -10,6 +10,8 @@
 #include <assert.h>
 #include <sys/stat.h> 
 #include <fcntl.h> 
+#include <sys/types.h>
+
 #endif
 
 class ClassHeap;
@@ -190,7 +192,7 @@ public:
 	// }
 
 public:
-	virtual bool LoadClassFromFile(char * lpszFilePath);
+	virtual bool LoadClassFromFile(const char * lpszFilePath);
 	void SetByteCode(void* pByteCode);
 
 	bool ParseClass(void);
