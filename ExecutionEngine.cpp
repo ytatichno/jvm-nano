@@ -51,21 +51,21 @@ u4 ExecutionEngine::Execute(Frame* pFrameStack)
 	char * strMethod = NULL;
 	pClass->GetStringFromConstPool(pFrame->pMethod->name_index, strMethod);
 
-	////DbgPrint(_T("Execute At Class %s Method %s \n"), pClass->GetName(), strMethod); 
+	printf(">>Execute At Class %s Method %s \n", pClass->GetName(), strMethod); 
 	i4 index=0;
 	i8 longVal;
 	while(1)
 	{
 
 		////DbgPrint(_T("Stack values "));
-		for(int i=0;i<pFrame->sp + pFrame->stack - Frame::pOpStack+1;i++)
-		{
+		// for(int i=0;i<pFrame->sp + pFrame->stack - Frame::pOpStack+1;i++)
+		// {
 			////DbgPrint(_T("[%d] "), Frame::pOpStack[i].intValue);
-		}
+		// }
 		////DbgPrint(_T("\n"));
 		////DbgPrint(_T("Opcode = %s [%d] Stack=%d [+%d]\n"),OpcodeDesc[(u1)bc[pFrame->pc]], (u1)bc[pFrame->pc], pFrame->sp, pFrame->stack - Frame::pOpStack); 
 		// printf(">>>>> bc:%p   pFrame:%p \n", bc, pFrame);
-		if(!bc) break;  // maybe break
+		// if(!bc) break;  // maybe break
 		switch(bc[pFrame->pc])
 		{
 		case nop:
@@ -539,7 +539,8 @@ Variable ExecutionEngine::LoadConstant(JavaClass *pClass, u1 nIndex)
 {
 	Variable v;
 	v.ptrValue = 0;
-	char *pStrVal=NULL, *strTemp;
+	char *pStrVal=NULL;
+	char *strTemp=NULL;
 	//char * strClass= pClass->GetName();
 	//ShowClassInfo(pClass);
 
@@ -559,7 +560,7 @@ Variable ExecutionEngine::LoadConstant(JavaClass *pClass, u1 nIndex)
 	case CONSTANT_String:
 		i=getu2((char *)&cp[1]);
 
-		pStrVal = (char*)malloc(sizeof(char)*val_size);
+		// pStrVal = (char*)malloc(sizeof(char)*val_size);
 		
 		pClass->GetStringFromConstPool(i, strTemp);
 
@@ -620,7 +621,7 @@ void ExecutionEngine::ExecuteInvokeVirtual(Frame* pFrameStack, u2 type)
 
 	u2 ni=getu2(&pConstPool[1]);
 
-	char * strClassName;
+	char * strClassName = NULL;
 	pFrameStack[0].pClass->GetStringFromConstPool(ni, strClassName);
 
 
@@ -642,7 +643,8 @@ void ExecutionEngine::ExecuteInvokeVirtual(Frame* pFrameStack, u2 type)
 
 	method.access_flags = 0; // todo set 
 
-	char * strName, * strDesc;
+	char * strName = NULL;
+	char * strDesc = NULL;
 	pFrameStack[0].pClass->GetStringFromConstPool(method.name_index, strName);
 	pFrameStack[0].pClass->GetStringFromConstPool(method.descriptor_index, strDesc);
 
@@ -856,7 +858,10 @@ u4 ExecutionEngine::ExecuteNativeMethod(Frame* pFrameStack)
 	assert(pFrame->pMethod->access_flags & ACC_NATIVE);
 
 	JavaClass *pClass = pFrame->pClass;
-	char * strClassName, * strMethod, * strDesc, * strSignature;
+	char * strClassName = NULL;
+	char * strMethod = NULL;
+	char * strDesc = NULL;
+	char * strSignature = NULL;
 	strClassName=pClass->GetName();
 	pClass->GetStringFromConstPool(pFrame->pMethod->name_index, strMethod);
 	pClass->GetStringFromConstPool(pFrame->pMethod->descriptor_index, strDesc);

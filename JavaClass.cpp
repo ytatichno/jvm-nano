@@ -404,7 +404,7 @@ bool JavaClass::ParseMethodCodeAttribute(int nMethodIndex, Code_attribute* pCode
 			GetStringFromConstPool(name_index, strAttributeName);
 			// may be we can compare indexe directly??
 			//if(!strAttributeName.CompareNoCase("Code"))
-			if(strcasecmp(strAttributeName, "Code"))
+			if(!strcasecmp(strAttributeName, "Code"))
 			{
 				char *ca=bc;
 				pCode_attr->attribute_name_index=name_index;//already scanned;

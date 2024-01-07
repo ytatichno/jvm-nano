@@ -26,9 +26,9 @@ Variable Print(RuntimeEnvironment* pRuntimeEnvironment)
 	Variable *pVar=pRuntimeEnvironment->pObjectHeap->GetObjectPointer(object);
 	if(pVar)
 	{
-		char* *pString = (char* *)pVar[1].ptrValue;
+		char*pString = (char*)pVar[1].ptrValue;
 		if(pString)
-			printf("%s",*pString);
+			printf("%s",pString);
 	}
 
 	returnVal.intValue=0;
