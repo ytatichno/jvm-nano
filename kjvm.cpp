@@ -34,16 +34,16 @@ void ShowClassInfo(JavaClass* pClass);
 void Execute(char* strClass)
 {
 	char* path=strClass;
-	ClassHeap heap;
+	ClassHeap* heap = ClassHeap::getInstance();
 	JavaClass *pClass1, *pClass2, *pClass3;
 	pClass1 = new JavaClass();
 	pClass2 = new JavaClass();
 
-	bool bRet=heap.LoadClass(strClass, pClass1);
+	bool bRet=heap->LoadClass(strClass, pClass1);
 	#ifdef JOSBUILD
-	bRet=heap.LoadClass("Object", pClass2);  // to evade dirs in JOS
+	bRet=heap->LoadClass("Object", pClass2);  // to evade dirs in JOS
 	#else  // Linux
-	bRet=heap.LoadClass("java/lang/Object", pClass2);
+	bRet=heap->LoadClass("java/lang/Object", pClass2);
 	#endif
 
 	ObjectHeap oheap;
@@ -57,7 +57,7 @@ void Execute(char* strClass)
 	memset(Frame::pOpStack, 0, sizeof(Variable)*100);
 
 	ExecutionEngine ex;
-	ex.pClassHeap = &heap;
+	ex.pClassHeap = heap;
 	ex.pObjectHeap = &oheap;
 	int startFrame=0;
 
@@ -66,8 +66,12 @@ void Execute(char* strClass)
 	// Entry point EntryPoint
 	// TODO make public static void main entry point
 	int mindex = pClass1->GetMethodIndex("Entry","()I",pVirtualClass);
+	
+		// mindex = 0;
+	
 	pFrameStack[startFrame].pClass = pVirtualClass;	
-
+	if(mindex < 0)
+			return;
 	pFrameStack[startFrame].pMethod = &pVirtualClass->methods[mindex];
 	pFrameStack[startFrame].stack = Frame::pOpStack;
 	pFrameStack[startFrame].sp = pFrameStack[startFrame].pMethod->pCode_attr->max_locals;
@@ -98,17 +102,21 @@ void Test2()
 
 	//to evade dirs in JOS
 	const char* path = "Test";
-	const char* path2 = "Object";
+	#ifdef JOSBUILD
+	const char* path2 = "Object";  // to evade dirs in JOS
+	#else  // Linux
+	const char* path2 = "java/lang/Object";
+	#endif
 
-	ClassHeap heap;
+	ClassHeap* heap = ClassHeap::getInstance();
 	JavaClass *pClass1, *pClass2, *pClass3;
 	pClass1 = new JavaClass();
 	pClass2 = new JavaClass();
 
-	bool bRet=heap.LoadClass(path, pClass1);
-	bRet=heap.LoadClass(path2, pClass2);
+	bool bRet=heap->LoadClass(path, pClass1);
+	bRet=heap->LoadClass(path2, pClass2);
 
-	pClass3=heap.GetClass("Test");
+	pClass3=heap->GetClass("Test");
 
 	for(int i=0;pClass3&& i< pClass3->interfaces_count; i++)
 	{
@@ -122,7 +130,7 @@ void Test2()
 
 		printf("Loading Interface %s\n", name);
 		JavaClass *pClass4 = new JavaClass();
-		bRet=heap.LoadClass(name, pClass4);
+		bRet=heap->LoadClass(name, pClass4);
 
 		if(bRet) ShowClassInfo(pClass4);
 	}

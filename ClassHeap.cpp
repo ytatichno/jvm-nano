@@ -6,6 +6,7 @@
 // #include "string.h"
 ClassHeap::ClassHeap(void)
 {
+	DLOG("classheap");
 	// m_ClassMap{};
 	m_ClassMap = new CMapStringToPtr();
 	pFilePathManager = new FilePathManager();
@@ -15,6 +16,13 @@ ClassHeap::~ClassHeap(void)
 {
 	
 }
+ClassHeap * ClassHeap::p_instance;
+
+ClassHeap * ClassHeap::getInstance() {
+        if(!p_instance)           
+            p_instance = new ClassHeap();
+        return p_instance;
+    }
 
 bool ClassHeap::AddClass(JavaClass* pJavaClass)
 {
@@ -29,7 +37,7 @@ bool ClassHeap::AddClass(JavaClass* pJavaClass)
 
 JavaClass* ClassHeap::GetClass(const char * strClassName)
 {
-	printf(">>%d", ((CMapStringToPtr*)((u8)this + (u8)m_ClassMap))->size);
+	printf(">>%d", m_ClassMap->size);
 	void *pClass=NULL;
 	if(!m_ClassMap->Lookup(strClassName, pClass))
 	{
@@ -44,11 +52,15 @@ JavaClass* ClassHeap::GetClass(const char * strClassName)
 
 	return (JavaClass*)pClass;
 }
-
+/// @brief check existence of .class file and tries to load it
+/// @todo remove extra calls with empty params
+/// @param strClassName className like JavaTest.class
+/// @param pClass 
+/// @return true if OK
 bool ClassHeap::LoadClass(const char * strClassName, JavaClass *pClass)
 {
 	char * path, * relPath;
-	if(!pClass) return false;
+	if(!pClass || !strClassName) return false;
 	int classNameSize = strnlen(strClassName, MAX_STR_SIZE-1) + 1;
 	char * strClassNameCopy = (char*)calloc(classNameSize, sizeof(char));
 	memcpy(strClassNameCopy,strClassName, classNameSize*sizeof(char));

@@ -12,6 +12,7 @@ JavaClass::JavaClass(void):
 	m_nByteCodeLength(0),
 	m_nObjectFieldsCount(0)
 {
+	m_pClassHeap = ClassHeap::getInstance();
 }
 
 JavaClass::~JavaClass(void)

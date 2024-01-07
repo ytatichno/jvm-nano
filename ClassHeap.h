@@ -17,15 +17,33 @@ class FilePathManager;
 
 
 
-class ClassHeap
+/// @brief singleton
+class ClassHeap 
 {
 	CMapStringToPtr *m_ClassMap;
 	FilePathManager *pFilePathManager;
-public:
+private:  // singleton
 	ClassHeap(void);
+	ClassHeap(const ClassHeap&);
+	ClassHeap& operator=(ClassHeap&);
+
+	static ClassHeap * p_instance;
+
 public:
-	virtual ~ClassHeap(void);
+	virtual ~ClassHeap(void);  // probably should be private
 public:
+
+	inline void * operator new(size_t size){
+		// return malloc(size);
+		return calloc(size,sizeof(char));
+	}
+	inline void operator delete(void * ptr){
+		if(ptr != NULL)
+			free(ptr);
+	}
+
+	static ClassHeap * getInstance();
+
 	bool AddClass(JavaClass* pJavaClass);
 	JavaClass* GetClass(const char * strClassName);
 	bool LoadClass(const char * strClassName, JavaClass *pClass);
