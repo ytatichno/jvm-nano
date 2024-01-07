@@ -174,7 +174,8 @@ bool JavaClass::ParseMethods(char* &p)
 		methods[i].descriptor_index= getu2(p); p+=2; //descriptor_index
 		methods[i].attributes_count=getu2(p); p+=2;
 		
-		char * strName, * strDesc;
+		char * strName = NULL; 
+		char * strDesc = NULL;
 		GetStringFromConstPool(methods[i].name_index, strName);
 		GetStringFromConstPool(methods[i].descriptor_index, strDesc);
 
@@ -195,7 +196,7 @@ bool JavaClass::ParseMethods(char* &p)
 				p+=len;
 			}
 
-			methods[i].pCode_attr = (Code_attribute *)malloc(sizeof(Code_attribute));
+			methods[i].pCode_attr = (Code_attribute *)calloc(sizeof(Code_attribute),sizeof(char));
 			ParseMethodCodeAttribute(i, methods[i].pCode_attr);
 		}		
 	}
@@ -339,7 +340,7 @@ bool JavaClass::GetConstantPool(u2 nIndex, cp_info& const_pool)
 	return 0;
 }
 
-bool JavaClass::GetStringFromConstPool(int nIndex, char * strValue)
+bool JavaClass::GetStringFromConstPool(int nIndex, char *& strValue)
 {
 
 	if(nIndex<1 || nIndex >= constant_pool_count)
@@ -399,7 +400,7 @@ bool JavaClass::ParseMethodCodeAttribute(int nMethodIndex, Code_attribute* pCode
 		for(int a=0;a<nAttributes;a++)
 		{
 			u2 name_index=getu2(bc); bc+=2;		
-			char * strAttributeName;
+			char * strAttributeName = NULL;
 			GetStringFromConstPool(name_index, strAttributeName);
 			// may be we can compare indexe directly??
 			//if(!strAttributeName.CompareNoCase("Code"))
@@ -468,7 +469,8 @@ int JavaClass::GetMethodIndex(const char * strMethodName, const char * strMethod
 		//_tprintf(_T("Searching class %s\n"), pCurClass->GetName());
 		for(int i=0;i<pCurClass->methods_count;i++)
 		{
-			char * name, * desc;
+			char * name = NULL; 
+			char * desc = NULL;
 
 			pCurClass->GetStringFromConstPool(pCurClass->methods[i].name_index, name);
 			if//(name.Compare(strMethodName))

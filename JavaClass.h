@@ -202,7 +202,7 @@ public:
 	bool ParseAttributes(char* &p);
 	bool GetConstantPool(u2 nIndex, cp_info& const_pool);
 
-	bool GetStringFromConstPool(int nIndex, char * strValue);
+	bool GetStringFromConstPool(int nIndex, char *& strValue);
 	char * GetName(void);
 	char * GetSuperClassName(void);
 	bool ParseMethodCodeAttribute(int nMethodIndex, Code_attribute* pCode_attr);

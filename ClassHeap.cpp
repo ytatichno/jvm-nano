@@ -41,7 +41,7 @@ JavaClass* ClassHeap::GetClass(const char * strClassName)
 	void *pClass=NULL;
 	if(!m_ClassMap->Lookup(strClassName, pClass))
 	{
-		pClass = malloc(sizeof(JavaClass));
+		pClass = new JavaClass();
 		bool bRet=this->LoadClass(strClassName, (JavaClass*)pClass);
 		if(!bRet)
 		{
@@ -59,7 +59,8 @@ JavaClass* ClassHeap::GetClass(const char * strClassName)
 /// @return true if OK
 bool ClassHeap::LoadClass(const char * strClassName, JavaClass *pClass)
 {
-	char * path, * relPath;
+	char * path = NULL;
+	char * relPath = NULL;;
 	if(!pClass || !strClassName) return false;
 	int classNameSize = strnlen(strClassName, MAX_STR_SIZE-1) + 1;
 	char * strClassNameCopy = (char*)calloc(classNameSize, sizeof(char));

@@ -17,9 +17,10 @@ CMapStringToPtr::~CMapStringToPtr(){
 
 }
 bool CMapStringToPtr::Lookup(const char * key, void * & value){
+	if(key == NULL) return false;
     for (int i = 0; i < size; i++)
-		{
-			if (strncmp(list[i].key, key, MAX_STR_SIZE) == 0)
+		{   // not works with NULL
+			if (list[i].key == key || strncmp(list[i].key, key, MAX_STR_SIZE) == 0)
 			{
 				value = list[i].value;
 				return true;
@@ -28,9 +29,10 @@ bool CMapStringToPtr::Lookup(const char * key, void * & value){
 		return false;
 }
 void CMapStringToPtr::SetAt(const char * key, void * newValue){
+		if(key == NULL) return;
 		for (int i = 0; i < size; i++)
-		{
-			if (strncmp(list[i].key, key, MAX_STR_SIZE) == 0)
+		{		// not works with NULL
+			if (list[i].key == key || strncmp(list[i].key, key, MAX_STR_SIZE) == 0)
 			{
 				list[i].value = newValue;
 				return;
@@ -41,8 +43,9 @@ void CMapStringToPtr::SetAt(const char * key, void * newValue){
 			maxsize*=2;
 		}
 		list[size].value = newValue;
-        list[size].key = (char*)calloc(strnlen(key, MAX_STR_SIZE-1)+1, sizeof(char));
-        strncpy(list[size].key, key, MAX_STR_SIZE);
+		int key_len = strnlen(key, MAX_STR_SIZE-1)+1;
+        list[size].key = (char*)calloc(key_len, sizeof(char));
+        strncpy(list[size].key, key, key_len);
 		size++;
 	
 }

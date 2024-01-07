@@ -48,7 +48,7 @@ u4 ExecutionEngine::Execute(Frame* pFrameStack)
 	
 	i4 error=0;
 	JavaClass *pClass = pFrame->pClass;
-	char * strMethod;
+	char * strMethod = NULL;
 	pClass->GetStringFromConstPool(pFrame->pMethod->name_index, strMethod);
 
 	////DbgPrint(_T("Execute At Class %s Method %s \n"), pClass->GetName(), strMethod); 
@@ -64,6 +64,8 @@ u4 ExecutionEngine::Execute(Frame* pFrameStack)
 		}
 		////DbgPrint(_T("\n"));
 		////DbgPrint(_T("Opcode = %s [%d] Stack=%d [+%d]\n"),OpcodeDesc[(u1)bc[pFrame->pc]], (u1)bc[pFrame->pc], pFrame->sp, pFrame->stack - Frame::pOpStack); 
+		// printf(">>>>> bc:%p   pFrame:%p \n", bc, pFrame);
+		if(!bc) break;  // maybe break
 		switch(bc[pFrame->pc])
 		{
 		case nop:
