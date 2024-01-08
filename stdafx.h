@@ -6,8 +6,12 @@
 #pragma once
 #ifdef JOSBUILD
 
+// #include </home/ytatichno/os/prac/inc/assert.h>
+
 extern "C" {
     #define restrict __restrict
+    // #include <stdnoreturn.h>
+    #define _Noreturn [[noreturn]]
     // #include </home/ytatichno/os/prac/inc/string.h>  // for strnlen
     // #include </home/ytatichno/os/prac/inc/stdio.h>  // for snprintf
     #include </home/ytatichno/os/prac/inc/lib.h>  // for snprintf
