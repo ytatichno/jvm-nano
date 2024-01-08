@@ -4,6 +4,16 @@
 //
 
 #pragma once
+#ifdef JOSBUILD
+
+extern "C" {
+    #define restrict __restrict
+    // #include </home/ytatichno/os/prac/inc/string.h>  // for strnlen
+    // #include </home/ytatichno/os/prac/inc/stdio.h>  // for snprintf
+    #include </home/ytatichno/os/prac/inc/lib.h>  // for snprintf
+}
+#endif
+
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
@@ -24,12 +34,18 @@
 #endif
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#ifndef JOSBUILD
 #include <stdio.h>
+#endif
 // #include <tchar.h>
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS	// some CString constructors will be explicit
 
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#endif
+
+#ifndef NULL
+#define NULL nullptr
 #endif
 
 // #include <afx.h>
@@ -42,7 +58,7 @@
 // #include <afxcmn.h>			// MFC support for Windows Common Controls
 // #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#include <iostream>
+// #include <iostream>
 #include "JavaClass.h"
 
 void ShowClassInfo(JavaClass* pClass);

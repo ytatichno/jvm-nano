@@ -9,14 +9,20 @@
 #include <sys/stat.h> 
 #include <fcntl.h> 
 #endif
+#include <bits/types.h>
 
 
 typedef unsigned int u4;
 typedef unsigned short u2;
 typedef unsigned char u1;
-
+#ifdef JOSBUILD
 typedef __int64_t i8;
 typedef __uint64_t u8;
+typedef __uint64_t size_t;
+#else
+typedef __int64_t i8;
+typedef __uint64_t u8;
+#endif
 
 typedef int i4;
 typedef short i2;
