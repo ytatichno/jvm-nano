@@ -1,5 +1,6 @@
 #include "CMaps.h"
 #include "stdafx.h"
+#include "types.h"
 
 CMapStringToPtr::CMapStringToPtr(){
     maxsize = 8;
@@ -39,7 +40,11 @@ void CMapStringToPtr::SetAt(const char * key, void * newValue){
 			}
 		}
 		if (size == maxsize) {
-			list = (KV*)realloc(list, maxsize*2*sizeof(KV));
+			KV* old_list = list;
+			list = (KV*)calloc(maxsize*2, sizeof(KV));
+			memmove(list, old_list, size*sizeof(KV));
+
+			// list = (KV*)realloc(list, maxsize*2*sizeof(KV));
 			maxsize*=2;
 		}
 		list[size].value = newValue;
@@ -93,7 +98,11 @@ void CMapPtrToPtr::SetAt(void * key, void * newValue){
 			}
 		}
 		if (size == maxsize) {
-			list = (KV*)realloc(list, maxsize*2*sizeof(KV));
+			KV* old_list = list;
+			list = (KV*)calloc(maxsize*2, sizeof(KV));
+			memmove(list, old_list, size*sizeof(KV));
+
+			// list = (KV*)realloc(list, maxsize*2*sizeof(KV));
 			maxsize*=2;
 		}
 		list[size].value = newValue;
@@ -142,7 +151,11 @@ void CMapPtrToWord::SetAt(void * key, u2 newValue){
 			}
 		}
 		if (size == maxsize) {
-			list = (KV*)realloc(list, maxsize*2*sizeof(KV));
+			KV* old_list = list;
+			list = (KV*)calloc(maxsize*2, sizeof(KV));
+			memmove(list, old_list, size*sizeof(KV));
+
+			// list = (KV*)realloc(list, maxsize*2*sizeof(KV));
 			maxsize*=2;
 		}
 		list[size].value = newValue;
